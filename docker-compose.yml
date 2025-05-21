@@ -3,14 +3,14 @@ version: '3.8'
 services:
   nest-api:
     container_name: nest-api-dev
-    image: node:18
+    build:
+      context: .
+      dockerfile: Dockerfile-api
     working_dir: /app
     volumes:
       - .:/app
-      - /app/node_modules
     ports:
       - '3000:3000'
-    command: npm run start:dev
     environment:
       - NODE_ENV=development
-    depends_on: []
+    command: npm run start:dev

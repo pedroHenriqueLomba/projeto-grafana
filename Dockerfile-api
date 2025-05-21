@@ -1,34 +1,17 @@
-# Etapa 1: Build da aplicação
-FROM node:18 AS builder
+# Dockerfile-api
 
-# Cria o diretório de trabalho
+FROM node:18
+
 WORKDIR /app
 
-# Copia os arquivos de dependência e instala
 COPY package*.json ./
+
 RUN npm install
 
-# Copia o restante dos arquivos e compila o projeto
 COPY . .
-RUN npm run build
 
-# Etapa 2: Imagem final para produção
-FROM node:18-alpine AS production
-
-# Define a variável de ambiente (ajustável conforme sua necessidade)
-ENV NODE_ENV=production
-
-# Cria o diretório da aplicação
-WORKDIR /app
-
-# Copia apenas o necessário da etapa de build
-COPY package*.json ./
-RUN npm install --only=production
-
-COPY --from=builder /app/dist ./dist
-
-# Expõe a porta padrão da aplicação NestJS
+# Expõe a porta padrão do NestJS
 EXPOSE 3000
 
-# Comando para iniciar a aplicação
-CMD ["node", "dist/main"]
+# Usa ts-node ou nest para desenvolvimento
+CMD ["npm", "run", "start:dev"]
