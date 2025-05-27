@@ -9,8 +9,17 @@ services:
     working_dir: /app
     volumes:
       - .:/app
+      - /app/node_modules
     ports:
       - '3000:3000'
     environment:
       - NODE_ENV=development
     command: npm run start:dev
+  mongo:
+    container_name: mongo-dev
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
